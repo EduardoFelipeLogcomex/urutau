@@ -3,7 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/urutau-components.umd.cjs",
   "module": "./dist/urutau-components.js",
   "exports": {
@@ -21,6 +23,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "sass": "^1.75.0",
     "vue": "^3.4.21"
   },
   "devDependencies": {
