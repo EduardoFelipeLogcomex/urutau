@@ -1,0 +1,17 @@
+.urtModal {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	justify-content: center;
+	align-self: center;
+
+	&__overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background-color: rgba(0, 0, 0, 0.29);
+	}
+}

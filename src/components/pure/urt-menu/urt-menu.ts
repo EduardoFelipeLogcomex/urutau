@@ -1,12 +1,13 @@
 import { ref } from 'vue'
-import { Worker } from '@/modules/Worker'
-import { Events } from '@/modules/Events'
-import { Vector } from '@/modules/Vector'
+import { Worker } from '../../../modules/Worker'
+import { Events } from '../../../modules/Events'
+import { Vector } from '../../../modules/Vector'
 
 enum UrtMenuAction {
 	SET_MARGIN_TOP,
 	SET_MARGIN_LEFT,
-	OPEN
+	OPEN,
+	CLOSE
 }
 
 interface UrtMenuData {
@@ -44,6 +45,16 @@ export namespace UrtMenuAPI {
 			}
 		}, () => {})
 	}
+
+	export function close(componentKey: string): void {
+		Events.nextSafe<UrtMenuData>({
+			name: `__URT__MENU__${componentKey}`,
+			payload: {
+				action: UrtMenuAction.CLOSE,
+				data: null
+			}
+		}, () => {})
+	}
 }
 
 export class UrtMenu {
@@ -59,7 +70,8 @@ export class UrtMenu {
 	private actions: { [UrtMenuAction: number]: Function } = {
 		[UrtMenuAction.SET_MARGIN_LEFT]: (margin: number) => this.margins.x = margin,
 		[UrtMenuAction.SET_MARGIN_TOP]: (margin: number) => this.margins.y = margin,
-		[UrtMenuAction.OPEN]: () => this.openMenu()
+		[UrtMenuAction.OPEN]: () => this.openMenu(),
+		[UrtMenuAction.CLOSE]: () => this.closeMenu()
 	}
 
 	public isOpen = ref<boolean>(false)

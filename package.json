@@ -19,6 +19,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --emitDeclarationOnly",
+		"build:watch": "vite build && vue-tsc --emitDeclarationOnly --watch",
     "types": "vue-tsc",
     "preview": "vite preview"
   },

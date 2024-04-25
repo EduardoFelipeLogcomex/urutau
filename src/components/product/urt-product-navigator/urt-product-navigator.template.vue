@@ -1,7 +1,7 @@
 <template>
   <div class="urt__nav">
     <div class="urt__nav__sec">
-      <img src="@/assets/img/logcomex-logo-full.png" alt="logcomex company logo" class="urt__nav__logo" />
+      <img src="../../../assets/img/logcomex-logo-full.png" alt="logcomex company logo" class="urt__nav__logo" />
       <div class="urt__nav__divider"/>
     </div>
 
@@ -17,11 +17,11 @@
 
         <div class="urt__nav__profile__desc">
           <span class="urt__nav__profile__desc__name">
-            Helmuth Hofstatter
+            {{ self.userName.value }}
           </span>
 
           <span class="urt__nav__profile__desc__company">
-            Logcomex Demo
+            {{ self.userCompany.value }}
           </span>
         </div>
       </div>
@@ -33,16 +33,21 @@
 							<i class="material-symbols-outlined">language</i>
 							<span>Alterar idioma</span>
 						</div>
+						
+						<div class="navMenu__item__sec">
+							<img v-if="self.currentLanguage.value === 'pt'" src="../../../assets/img/flag_brazil.svg" alt="idiom flag">
+							<img v-else src="../../../assets/img/flag_united_states.svg" alt="idiom flag">
+						</div>
 					</a>
 
-					<a href="https://plataforma.logcomex.io/preferences/account-preferences" class="navMenu__item">
+					<div href="https://plataforma.logcomex.io/preferences/account-preferences" class="navMenu__item">
 						<div class="navMenu__item__sec">
 							<i class="material-symbols-outlined">manage_accounts</i>
 							<span>Central do cliente</span>
 						</div>
-					</a>
+					</div>
 
-					<div class="navMenu__item">
+					<div class="navMenu__item" @click="self.openCompanyChange()">
 						<div class="navMenu__item__sec">
 							<i class="material-symbols-outlined">apartment</i>
 							<span>Alterar empresa</span>
@@ -56,12 +61,12 @@
 						</div>
 					</a>
 
-					<a href="https://sistema.logcomex.io/#/relatorio-consumo" class="navMenu__item">
+					<div class="navMenu__item" @click="self.routeSecureLink('https://sistema.logcomex.io/#/relatorio-consumo')">
 						<div class="navMenu__item__sec">
 							<i class="material-symbols-outlined">insert_chart</i>
 							<span>Relatório de consumo</span>
 						</div>
-					</a>
+					</div>
 
 					<a href="https://plataforma.logcomex.io/logout" class="navMenu__item">
 						<div class="navMenu__item__sec">
@@ -73,10 +78,37 @@
 			</urt-menu>
     </div>
   </div>
+
+	<urt-modal :is-open="self.companyChangedIsOpen.value" @close="self.closeCompanyChange()">
+		<div class="changeCompany">
+			<div class="changeCompany__header">
+				<span>Alterar empresa</span>
+				<div class="changeCompany__header__close">
+					<i class="material-symbols-outlined" @click="self.closeCompanyChange()">close</i>
+				</div>
+			</div>
+
+			<div class="changeCompany__body">
+				<input type="text">
+			</div>
+
+			<div class="changeCompany__footer">
+				<div>
+					<span>limpar preferencias</span>
+				</div>
+
+				<div>
+					<span>cancelar</span>
+					<span>confirmar</span>
+				</div>
+			</div>
+		</div>
+	</urt-modal>
 </template>
 
 <script lang="ts" setup>
-import UrtMenu from '@/components/pure/urt-menu/urt-menu.template.vue'
+import UrtMenu from '../../pure/urt-menu/urt-menu.template.vue'
+import UrtModal from '../../pure/urt-modal/urt-modal.template.vue'
 import { UrtProductNavigator } from './urt-product-navigator.ts'
 
 const self = new UrtProductNavigator()
