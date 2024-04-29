@@ -3,7 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/urutau-components.umd.cjs",
   "module": "./dist/urutau-components.js",
   "exports": {
@@ -17,14 +19,18 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --emitDeclarationOnly",
+		"build:watch": "vite build && vue-tsc --emitDeclarationOnly --watch",
     "types": "vue-tsc",
     "preview": "vite preview"
   },
   "dependencies": {
+    "sass": "^1.75.0",
+    "uuid": "^9.0.1",
     "vue": "^3.4.21"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
+    "@types/uuid": "^9.0.8",
     "@vitejs/plugin-vue": "^5.0.4",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
