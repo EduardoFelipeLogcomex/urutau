@@ -13,11 +13,11 @@ interface ChangeCompany {
 export class UrtProductNavigator {
 	private menuComponentKey: string = ''
 	private httpFactory: MakeHTTP
+	private v3ApiInfraKey: string = ''
 
 	public userName = ref<string>('')
 	public userCompany = ref<string>('')
 	public currentLanguage = ref<string>('')
-
 	public company = ref<ChangeCompany>({
 		isOpen: false,
 		isLoading: true,
@@ -113,6 +113,10 @@ export class UrtProductNavigator {
 		this.company.value = { ...this.company.value, value: v }
 	}
 
+	public setV3ApiInfraKey(v: string): void {
+		this.v3ApiInfraKey = v
+	}
+
 	public changeCompany(): void {
 		if (!this.company.value) {
 			this.closeCompanyModal()
@@ -123,14 +127,13 @@ export class UrtProductNavigator {
 		http.changeBaseUrl('https://apiauth.logcomex.io/api')
 		http.useDefaultHeaders = false
 
-		const v3InfraKey = '9dce6232-857c-4d2c-b5d5-216da1543a21'
 		const userEmail = localStorage.getItem('email') || ''
 
 		http.setHeaders({
 			'Content-type': 'Application/json',
 			'User-Email': userEmail,
 			Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
-			'x-infra-key': v3InfraKey
+			'x-infra-key': this.v3ApiInfraKey
 		})
 
 		const payload = {

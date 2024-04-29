@@ -122,8 +122,17 @@ import UrtButton from '../../pure/urt-button/urt-button.template.vue'
 import { UrtProductNavigator } from './urt-product-navigator.ts'
 import UrtAutocompleteSelectOutlined from '../../pure/forms/urt-autocomplete-select-outlined/urt-autocomplete-select-outlined.template.vue'
 import { MakeXMLHttpRequestAdapter } from '../../../modules/Http/xml-http-request.adapter.ts'
+import {onMounted} from "vue";
 
 const self = new UrtProductNavigator(MakeXMLHttpRequestAdapter)
+
+const props = defineProps<{
+	ApiV3InfraKey: string
+}>()
+
+onMounted(() => {
+	self.setV3ApiInfraKey(props.ApiV3InfraKey)
+})
 </script>
 
 <style lang="sass">

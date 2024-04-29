@@ -1,6 +1,6 @@
 <template>
   <div class="playground">
-    <urt-product-navigator />
+    <urt-product-navigator api-v3-infra-key="" />
   </div>
 </template>
 
