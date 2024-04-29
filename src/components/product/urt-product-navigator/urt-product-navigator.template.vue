@@ -40,12 +40,12 @@
 						</div>
 					</a>
 
-					<div href="https://plataforma.logcomex.io/preferences/account-preferences" class="navMenu__item">
+					<a href="https://plataforma.logcomex.io/preferences/account-preferences" class="navMenu__item">
 						<div class="navMenu__item__sec">
 							<i class="material-symbols-outlined">manage_accounts</i>
 							<span>Central do cliente</span>
 						</div>
-					</div>
+					</a>
 
 					<div class="navMenu__item" @click="self.openCompanyModal()">
 						<div class="navMenu__item__sec">
