@@ -10,7 +10,7 @@
 
 <script lang="ts" setup>
 const props = defineProps<{
-	isOpen: false,
+	isOpen: boolean,
 	position: string
 }>()
 

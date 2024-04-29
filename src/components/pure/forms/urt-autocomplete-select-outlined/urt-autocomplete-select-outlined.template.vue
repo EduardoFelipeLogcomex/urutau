@@ -59,7 +59,8 @@ const self = new UrtAutocompleteSelectOutlined()
 const emits = defineEmits(['change-value'])
 
 onMounted(() => {
-	self.bindEmitsHandler((name: string, ...args: any) => emits(name, ...args))
+	// eslint-disable-next-line
+	self.bindEmitsHandler((name: any, ...args: any) => emits(name, ...args))
 	self.setOptions(props.options)
 })
 </script>
