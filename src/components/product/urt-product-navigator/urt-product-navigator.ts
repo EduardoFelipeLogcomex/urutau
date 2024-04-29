@@ -1,6 +1,6 @@
-import {h, ref} from 'vue'
+import { ref } from 'vue'
 import { UrtMenuAPI } from '../../pure/urt-menu/urt-menu.ts'
-import HTTP, {MakeHTTP} from '../../../modules/Http/http.protocol.ts'
+import { MakeHTTP } from '../../../modules/Http/http.protocol.ts'
 import { Option } from '../../pure/forms/urt-autocomplete-select-outlined/urt-autocomplete-select-outlined.template.ts'
 
 interface ChangeCompany {
@@ -12,7 +12,7 @@ interface ChangeCompany {
 
 export class UrtProductNavigator {
 	private menuComponentKey: string = ''
-	private httpFactory: MakeHTTP = () => {}
+	private httpFactory: MakeHTTP
 
 	public userName = ref<string>('')
 	public userCompany = ref<string>('')

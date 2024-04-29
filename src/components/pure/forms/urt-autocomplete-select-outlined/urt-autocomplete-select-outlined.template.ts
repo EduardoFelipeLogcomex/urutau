@@ -28,7 +28,7 @@ export class UrtAutocompleteSelectOutlined {
 		UrtMenuAPI.setMarginTop(this.menuComponentApiKey, 55)
 		UrtMenuAPI.open(this.menuComponentApiKey)
 
-		Worker.Make((w) => {
+		Worker.Make((w: any) => {
 			const element: HTMLDivElement | null = document.getElementById(`${this.componentID.value}-input`) as HTMLDivElement | null
 
 			if (element) {
