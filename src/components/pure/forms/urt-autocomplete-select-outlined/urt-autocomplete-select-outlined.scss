@@ -13,9 +13,18 @@
 		width: 100%;
 		border-color: unset;
 		border-width: 0;
+		padding: 0;
 
 		&:focus {
 			outline: none;
+
+			// necessary for the remove tailwind outline
+			border-width: 0;
+			--tw-ring-inset: none;
+			--tw-ring-offset-width: none;
+			--tw-ring-offset-color: none;
+			--tw-ring-color: none;
+			--tw-ring-shadow: none;
 		}
 	}
 
