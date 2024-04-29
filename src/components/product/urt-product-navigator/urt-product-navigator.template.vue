@@ -1,5 +1,5 @@
 <template>
-  <div class="urt__nav" style="border: 1px solid red">
+  <div class="urt__nav">
     <div class="urt__nav__sec">
       <img src="../../../assets/img/logcomex-logo-full.png" alt="logcomex company logo" class="urt__nav__logo" />
       <div class="urt__nav__divider"/>
