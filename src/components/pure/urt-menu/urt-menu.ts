@@ -145,6 +145,7 @@ export class UrtMenu {
 
 		if (!Vector.Vec4Intersects(menuPos, pointer)) {
 			this.closeMenu()
+			evt.stopPropagation()
 		}
 	}
 

@@ -47,7 +47,7 @@
 						</div>
 					</div>
 
-					<div class="navMenu__item" @click="self.openCompanyChange()">
+					<div class="navMenu__item" @click="self.openCompanyModal()">
 						<div class="navMenu__item__sec">
 							<i class="material-symbols-outlined">apartment</i>
 							<span>Alterar empresa</span>
@@ -79,27 +79,36 @@
     </div>
   </div>
 
-	<urt-modal :is-open="self.companyChangedIsOpen.value" @close="self.closeCompanyChange()">
+	<urt-modal position="center" :is-open="self.company.value.isOpen" @close="self.closeCompanyModal()">
 		<div class="changeCompany">
 			<div class="changeCompany__header">
 				<span>Alterar empresa</span>
 				<div class="changeCompany__header__close">
-					<i class="material-symbols-outlined" @click="self.closeCompanyChange()">close</i>
+					<i class="material-symbols-outlined" @click="self.closeCompanyModal()">close</i>
 				</div>
 			</div>
 
 			<div class="changeCompany__body">
-				<input type="text">
+				<urt-autocomplete-select-outlined
+					placeholder="Selecione uma empresa"
+					:options="self.company.value.options"
+					@change-value="(v) => self.setCompanyValue(v)"
+				/>
 			</div>
 
 			<div class="changeCompany__footer">
-				<div>
-					<span>limpar preferencias</span>
-				</div>
+				<urt-button type="secondary" size="sm" @click="self.clearPreferences()">
+					Limpar preferencias
+				</urt-button>
 
-				<div>
-					<span>cancelar</span>
-					<span>confirmar</span>
+				<div class="changeCompany__footer__actions">
+					<urt-button type="secondary" size="sm" @click="self.closeCompanyChangeMenu()">
+						CANCELAR
+					</urt-button>
+
+					<urt-button type="primary" size="sm" @click="self.changeCompany()">
+						CONFIRMAR
+					</urt-button>
 				</div>
 			</div>
 		</div>
@@ -109,9 +118,12 @@
 <script lang="ts" setup>
 import UrtMenu from '../../pure/urt-menu/urt-menu.template.vue'
 import UrtModal from '../../pure/urt-modal/urt-modal.template.vue'
+import UrtButton from '../../pure/urt-button/urt-button.template.vue'
 import { UrtProductNavigator } from './urt-product-navigator.ts'
+import UrtAutocompleteSelectOutlined from '../../pure/forms/urt-autocomplete-select-outlined/urt-autocomplete-select-outlined.template.vue'
+import { MakeXMLHttpRequestAdapter } from '../../../modules/Http/xml-http-request.adapter.ts'
 
-const self = new UrtProductNavigator()
+const self = new UrtProductNavigator(MakeXMLHttpRequestAdapter)
 </script>
 
 <style lang="sass">

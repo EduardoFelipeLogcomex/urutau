@@ -1,17 +1,35 @@
-import { ref } from 'vue'
+import {h, ref} from 'vue'
 import { UrtMenuAPI } from '../../pure/urt-menu/urt-menu.ts'
+import HTTP, {MakeHTTP} from '../../../modules/Http/http.protocol.ts'
+import { Option } from '../../pure/forms/urt-autocomplete-select-outlined/urt-autocomplete-select-outlined.template.ts'
+
+interface ChangeCompany {
+	isOpen: boolean
+	isLoading: boolean
+	options: Option[]
+	value: Option | null
+}
 
 export class UrtProductNavigator {
 	private menuComponentKey: string = ''
+	private httpFactory: MakeHTTP = () => {}
 
 	public userName = ref<string>('')
 	public userCompany = ref<string>('')
 	public currentLanguage = ref<string>('')
 
-	public companyChangedIsOpen = ref<boolean>(false)
+	public company = ref<ChangeCompany>({
+		isOpen: false,
+		isLoading: true,
+		options: [],
+		value: null
+	})
 
-	constructor() {
+	constructor(httpFactory: MakeHTTP) {
+		this.httpFactory = httpFactory
+
 		this.setUserData()
+		this.fetchChangeCompanyData()
 	}
 
 	public setMenuComponentKey(value: string): void {
@@ -55,12 +73,81 @@ export class UrtProductNavigator {
 		window.location = url as any
 	}
 
-	public openCompanyChange(): void {
+	public openCompanyModal(): void {
 		UrtMenuAPI.close(this.menuComponentKey)
-		this.companyChangedIsOpen.value = true
+		this.company.value = { ...this.company.value, isOpen: true }
 	}
 
-	public closeCompanyChange(): void {
-		this.companyChangedIsOpen.value = false
+	public closeCompanyModal(): void {
+		this.company.value = { ...this.company.value, isOpen: false }
+	}
+
+	private fetchChangeCompanyData(): void {
+		this.company.value = { ...this.company.value, isLoading: true }
+
+		const http = this.httpFactory()
+		http.changeBaseUrl('https://apiauth.logcomex.io/api')
+
+		http.request('GET', '/customer?userEmail=eduardo.felipe%40logcomex.com')
+			.then((response: any) => {
+				this.company.value = {
+					...this.company.value,
+					options: response.map((company: { id: number; name: string; has_active_plan: number }) => ({
+						value: company.id,
+						label: company.has_active_plan ? `[P] ${company.name}` : company.name,
+					})),
+					isLoading: false
+				}
+			})
+			.catch(() => {
+				this.company.value = { ...this.company.value, options: [], isLoading: false }
+			})
+	}
+
+	public closeCompanyChangeMenu(): void {
+		this.company.value = { ...this.company.value, isOpen: false }
+		UrtMenuAPI.close(this.menuComponentKey)
+	}
+
+	public setCompanyValue(v: Option): void {
+		this.company.value = { ...this.company.value, value: v }
+	}
+
+	public changeCompany(): void {
+		if (!this.company.value) {
+			this.closeCompanyModal()
+			return
+		}
+
+		const http = this.httpFactory()
+		http.changeBaseUrl('https://apiauth.logcomex.io/api')
+		http.useDefaultHeaders = false
+
+		const v3InfraKey = '9dce6232-857c-4d2c-b5d5-216da1543a21'
+		const userEmail = localStorage.getItem('email') || ''
+
+		http.setHeaders({
+			'Content-type': 'Application/json',
+			'User-Email': userEmail,
+			Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+			'x-infra-key': v3InfraKey
+		})
+
+		const payload = {
+			customerId: (this.company.value.value as Option).value,
+			userEmail: userEmail
+		}
+
+		http.request('POST', '/customer/change', payload)
+			.then(() => {
+				this.closeCompanyModal()
+				window.location.reload()
+			})
+			.catch(() => this.closeCompanyModal())
+	}
+
+	public clearPreferences(): void {
+		localStorage.clear()
+		window.location.reload()
 	}
 }
