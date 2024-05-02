@@ -156,6 +156,12 @@ export class UrtProductNavigator {
 	}
 
 	public redirectWithEnvironment(url: string): void {
-		window.location = url.replace('{ENV}', Environment.isProduction() ? '' : '.homol') as any
+		let targetURL = url.replace('{ENV}', Environment.isProduction() ? '' : '.homol')
+
+		if (Environment.isHomologation() && targetURL.includes('https://')) {
+			targetURL = targetURL.replace('https://', 'http://')
+		}
+
+		window.location = targetURL as any
 	}
 }
