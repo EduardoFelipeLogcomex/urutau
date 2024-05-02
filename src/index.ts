@@ -4,6 +4,7 @@ import UrtModal from './components/pure/urt-modal/urt-modal.template.vue'
 import { UrtMenuAPI } from './components/pure/urt-menu/urt-menu.ts'
 import UrtButton from './components/pure/urt-button/urt-button.template.vue'
 import UrtAutocompleteSelectOutlined from './components/pure/forms/urt-autocomplete-select-outlined/urt-autocomplete-select-outlined.template.vue'
+import { Environment } from './modules/Environment'
 
 export {
 	UrtProductNavigator,
@@ -12,4 +13,5 @@ export {
 	UrtMenuAPI,
 	UrtButton,
 	UrtAutocompleteSelectOutlined,
+	Environment
 }

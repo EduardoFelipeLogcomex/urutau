@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { UrtMenuAPI } from '../../pure/urt-menu/urt-menu.ts'
 import { MakeHTTP } from '../../../modules/Http/http.protocol.ts'
 import { Option } from '../../pure/forms/urt-autocomplete-select-outlined/urt-autocomplete-select-outlined.template.ts'
+import { Environment } from '../../../modules/Environment/index.ts'
 
 interface ChangeCompany {
 	isOpen: boolean
@@ -152,5 +153,9 @@ export class UrtProductNavigator {
 	public clearPreferences(): void {
 		localStorage.clear()
 		window.location.reload()
+	}
+
+	public redirectWithEnvironment(url: string): void {
+		window.location = url.replace('{ENV}', Environment.isProduction() ? '' : '.homol') as any
 	}
 }

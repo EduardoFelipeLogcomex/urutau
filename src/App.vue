@@ -6,6 +6,9 @@
 
 <script setup lang="ts">
 import UrtProductNavigator from "./components/product/urt-product-navigator/urt-product-navigator.template.vue"
+import { Environment } from "./modules/Environment"
+
+Environment.setEnvironment(Environment.Homologation)
 </script>
 
 <style scoped>

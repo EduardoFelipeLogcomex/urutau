@@ -1,8 +1,14 @@
 <template>
   <div class="urt__nav">
     <div class="urt__nav__sec">
-      <img src="../../../assets/img/logcomex-logo-full.png" alt="logcomex company logo" class="urt__nav__logo" />
-      <div class="urt__nav__divider"/>
+      <img
+				src="../../../assets/img/logcomex-logo-full.png"
+				alt="logcomex company logo"
+				class="urt__nav__logo"
+				@click="self.redirectWithEnvironment('https://plataforma{ENV}.logcomex.io')"
+			/>
+
+			<div class="urt__nav__divider"/>
     </div>
 
     <div class="urt__nav__sec">
@@ -28,7 +34,10 @@
 
       <urt-menu target="navMenu" @component-key="(k: string) => self.setMenuComponentKey(k)">
 				<div class="navMenu">
-					<a href="https://plataforma.logcomex.io/preferences/account-preferences" class="navMenu__item">
+					<div
+						class="navMenu__item"
+						@click="self.redirectWithEnvironment('https://plataforma{ENV}.logcomex.io/preferences/account-preferences')"
+					>
 						<div class="navMenu__item__sec">
 							<i class="material-symbols-outlined">language</i>
 							<span>Alterar idioma</span>
@@ -38,14 +47,17 @@
 							<img v-if="self.currentLanguage.value === 'pt'" src="../../../assets/img/flag_brazil.svg" alt="idiom flag">
 							<img v-else src="../../../assets/img/flag_united_states.svg" alt="idiom flag">
 						</div>
-					</a>
+					</div>
 
-					<a href="https://plataforma.logcomex.io/preferences/account-preferences" class="navMenu__item">
+					<div
+						class="navMenu__item"
+						@click="self.redirectWithEnvironment('https://plataforma{ENV}.logcomex.io/preferences/account-preferences')"
+					>
 						<div class="navMenu__item__sec">
 							<i class="material-symbols-outlined">manage_accounts</i>
 							<span>Central do cliente</span>
 						</div>
-					</a>
+					</div>
 
 					<div class="navMenu__item" @click="self.openCompanyModal()">
 						<div class="navMenu__item__sec">
@@ -61,19 +73,25 @@
 						</div>
 					</a>
 
-					<div class="navMenu__item" @click="self.routeSecureLink('https://sistema.logcomex.io/#/relatorio-consumo')">
+					<div
+						class="navMenu__item"
+						@click="self.routeSecureLink('https://sistema{ENV}.logcomex.io/#/relatorio-consumo')"
+					>
 						<div class="navMenu__item__sec">
 							<i class="material-symbols-outlined">insert_chart</i>
 							<span>Relatório de consumo</span>
 						</div>
 					</div>
 
-					<a href="https://plataforma.logcomex.io/logout" class="navMenu__item">
+					<div
+						class="navMenu__item"
+						@click="self.redirectWithEnvironment('https://plataforma{ENV}.logcomex.io/logout')"
+					>
 						<div class="navMenu__item__sec">
 							<i class="material-symbols-outlined">exit_to_app</i>
 							<span>Sair</span>
 						</div>
-					</a>
+					</div>
 				</div>
 			</urt-menu>
     </div>
