@@ -57,8 +57,16 @@ export class UrtProductNavigator {
 			this.currentLanguage.value = session.user.language
 	}
 
-	public routeSecureLink(path: string): void {
-		let url = path + '?'
+	public routeToV3(): void {
+		let url = ''
+
+		if (Environment.isProduction()) {
+			url = 'https://sistema.logcomex.io/#/relatorio-consumo'
+		} else {
+			url = 'http://homol.logcomex.io/#/relatorio-consumo'
+		}
+
+		url = url + '?'
 
 		const params = {
 			token: localStorage.getItem('token') || '',

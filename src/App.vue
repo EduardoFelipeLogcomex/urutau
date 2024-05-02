@@ -8,7 +8,7 @@
 import UrtProductNavigator from "./components/product/urt-product-navigator/urt-product-navigator.template.vue"
 import { Environment } from "./modules/Environment"
 
-Environment.setEnvironment(Environment.Homologation)
+Environment.setEnvironment(Environment.Production)
 </script>
 
 <style scoped>

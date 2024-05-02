@@ -75,7 +75,7 @@
 
 					<div
 						class="navMenu__item"
-						@click="self.routeSecureLink('https://sistema{ENV}.logcomex.io/#/relatorio-consumo')"
+						@click="self.routeToV3()"
 					>
 						<div class="navMenu__item__sec">
 							<i class="material-symbols-outlined">insert_chart</i>
