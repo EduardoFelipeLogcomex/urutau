@@ -95,7 +95,12 @@ export class UrtProductNavigator {
 		this.company.value = { ...this.company.value, isLoading: true }
 
 		const http = this.httpFactory()
-		http.changeBaseUrl('https://apiauth.logcomex.io/api')
+
+		if (Environment.isProduction()) {
+			http.changeBaseUrl('https://apiauth.logcomex.io/api')
+		} else {
+			http.changeBaseUrl('http://api-auth.homol.logcomex.io/api')
+		}
 
 		http.request('GET', '/customer?userEmail=eduardo.felipe%40logcomex.com')
 			.then((response: any) => {
@@ -133,8 +138,13 @@ export class UrtProductNavigator {
 		}
 
 		const http = this.httpFactory()
-		http.changeBaseUrl('https://apiauth.logcomex.io/api')
 		http.useDefaultHeaders = false
+
+		if (Environment.isProduction()) {
+			http.changeBaseUrl('https://apiauth.logcomex.io/api')
+		} else {
+			http.changeBaseUrl('http://api-auth.homol.logcomex.io/api')
+		}
 
 		const userEmail = localStorage.getItem('email') || ''
 
