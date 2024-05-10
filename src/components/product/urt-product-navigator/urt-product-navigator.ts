@@ -17,7 +17,7 @@ interface ChangeCompany {
 
 interface NavigatorElements {
 	logo: string
-	bgColor: null | HexColor
+	bgColor: HexColor
 	useLightFont: boolean
 }
 
@@ -39,7 +39,7 @@ export class UrtProductNavigator {
 
 	public navigatorElements = ref<NavigatorElements>({
 		logo: LogcomexLogo,
-		bgColor: null,
+		bgColor: '',
 		useLightFont: false
 	})
 

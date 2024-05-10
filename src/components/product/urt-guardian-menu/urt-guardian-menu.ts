@@ -63,8 +63,8 @@ export class UrtGuardianMenu {
 			try {
 				let response = await http.request<GuardianRequest | null>('GET', '/user/guardianInformation')
 				resolve(response)
-			} catch (error) {
-				reject(new Error(error))
+			} catch (e) {
+				reject(new Error('Error fetching guardian information'))
 			}
 		})
 	}

@@ -23,15 +23,16 @@ class Color {
 	private _hex: HexColor
 	private _isLight: boolean
 
-	constructor(r: int, g: int, b: int, a: int, hex: HexColor | null) {
+	constructor(r: number, g: number, b: number, a: number, hex: HexColor | null) {
 		this._r = r
 		this._g = g
 		this._b = b
 		this._a = a
-		this._hex = hex
 
 		if (!hex) {
-			this.hex = Color.rgbToHex(r, g, b)
+			this._hex = Color.rgbToHex(r, g, b)
+		} else {
+			this._hex = hex
 		}
 
 		this._isLight = (1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255) < 0.5

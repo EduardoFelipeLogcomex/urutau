@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import {MakeHighResolution, Worker} from '../../../modules/Worker'
+import { Worker } from '../../../modules/Worker'
 import { Events } from '../../../modules/Events'
 import { Vector } from '../../../modules/Vector'
 

@@ -2,11 +2,11 @@ class PermissionStorage {
 	// O(1) - Constant time complexity
 	private permissions = new Map<string, boolean>()
 
-	private _instance: PermissionStorage | undefined = undefined
+	private static _instance: PermissionStorage | undefined = undefined
 
 	public static getInstance(): PermissionStorage {
-		if (!this._instance) {
-			this._instance = new PermissionStorage()
+		if (!PermissionStorage._instance) {
+			PermissionStorage._instance = new PermissionStorage()
 
 			const session = JSON.parse(localStorage.getItem('session') || '{}') as Record<string, any>
 			const user = session?.user || false
@@ -16,12 +16,12 @@ class PermissionStorage {
 
 				// nothing mapped full permission object
 				permissions.forEach((permission: { id: number; name: string; slug: string }) => {
-					this._instance!.permissions.set(permission.slug, true)
+					PermissionStorage._instance!.permissions.set(permission.slug, true)
 				})
 			}
 		}
 
-		return this._instance
+		return PermissionStorage._instance
 	}
 
 	public hasPermission(permission: string): boolean {
