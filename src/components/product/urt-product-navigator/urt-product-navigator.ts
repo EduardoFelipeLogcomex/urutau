@@ -2,13 +2,23 @@ import { ref } from 'vue'
 import { UrtMenuAPI } from '../../pure/urt-menu/urt-menu.ts'
 import { MakeHTTP } from '../../../modules/Http/http.protocol.ts'
 import { Option } from '../../pure/forms/urt-autocomplete-select-outlined/urt-autocomplete-select-outlined.template.ts'
-import { Environment } from '../../../modules/Environment/index.ts'
+import { Environment } from '../../../modules/Environment'
+import { HexColor } from '../../../types.ts'
+import { MakeColorHex } from '../../../modules/Color'
+import { Permission, PERMISSIONS } from '../../../modules/Permission'
+import LogcomexLogo from '../../../assets/img/logcomex-logo-full.png'
 
 interface ChangeCompany {
 	isOpen: boolean
 	isLoading: boolean
 	options: Option[]
 	value: Option | null
+}
+
+interface NavigatorElements {
+	logo: string
+	bgColor: null | HexColor
+	useLightFont: boolean
 }
 
 export class UrtProductNavigator {
@@ -18,6 +28,7 @@ export class UrtProductNavigator {
 
 	public userName = ref<string>('')
 	public userCompany = ref<string>('')
+	public userAvatar = ref<string>('')
 	public currentLanguage = ref<string>('')
 	public company = ref<ChangeCompany>({
 		isOpen: false,
@@ -26,9 +37,43 @@ export class UrtProductNavigator {
 		value: null
 	})
 
+	public navigatorElements = ref<NavigatorElements>({
+		logo: LogcomexLogo,
+		bgColor: null,
+		useLightFont: false
+	})
+
+	public permissions = ref({
+		changeCompany: new Permission([], [PERMISSIONS.LOGMANAGER_VISUALIZATION]).check(),
+		consumptionReport: new Permission([
+			PERMISSIONS.ADMINISTRADOR,
+			PERMISSIONS.IMPO_EXCEL_BRASIL,
+			PERMISSIONS.EXPO_EXCEL_BRASIL,
+			PERMISSIONS.MARITIMO_CABOTAGEM_EXCEL_BRASIL,
+			PERMISSIONS.MARITIMO_IMPORTACAO_EXCEL_BRASIL,
+			PERMISSIONS.MARITIMO_EXPORTACAO_EXCEL_BRASIL,
+			PERMISSIONS.AEREO_IMPORTACAO_EXCEL_BRASIL,
+			PERMISSIONS.LEADS_EXCEL,
+			PERMISSIONS.MARITIMO_IMPORTACAO_EXCEL_ARGENTINA,
+			PERMISSIONS.MARITIMO_IMPORTACAO_EXCEL_PARAGUAI,
+			PERMISSIONS.MARITIMO_IMPORTACAO_EXCEL_URUGUAI,
+			PERMISSIONS.MARITIMO_EXPORTACAO_EXCEL_ARGENTINA,
+			PERMISSIONS.MARITIMO_EXPORTACAO_EXCEL_PARAGUAI,
+			PERMISSIONS.MARITIMO_EXPORTACAO_EXCEL_URUGUAI,
+			PERMISSIONS.MARITIMO_CAPTACAO_IMPORTACAO_EXCEL,
+			PERMISSIONS.TRACKING_IMPORTACAO_EXCEL_BRASIL,
+			PERMISSIONS.SEARCHX_EXCEL,
+			PERMISSIONS.MARITIMO_IMPORTACAO_EXCEL_EUA,
+			PERMISSIONS.SEARCH_EXCEL,
+			PERMISSIONS.EXPORTACAO_EXCEL,
+			PERMISSIONS.USUARIO
+		], [PERMISSIONS.LOGMANAGER_VISUALIZATION]).check(),
+	})
+
 	constructor(httpFactory: MakeHTTP) {
 		this.httpFactory = httpFactory
 
+		this.loadUserCustomElements()
 		this.setUserData()
 		this.fetchChangeCompanyData()
 	}
@@ -45,7 +90,7 @@ export class UrtProductNavigator {
 	}
 
 	private setUserData(): void {
-		const session = JSON.parse(localStorage.getItem('session') || '{}')
+		const session = JSON.parse(localStorage.getItem('session') || '{}') as Record<string, any>
 
 		if (session?.user?.name)
 			this.userName.value = session.user.name
@@ -55,6 +100,12 @@ export class UrtProductNavigator {
 
 		if (session?.user?.language)
 			this.currentLanguage.value = session.user.language
+
+		if (session?.user?.avatar) {
+			this.userAvatar.value = `https://logcomex-majestic.s3.sa-east-1.amazonaws.com/avatar/` + session.user.avatar
+		} else {
+			this.userAvatar.value = 'https://logcomex-majestic.s3.sa-east-1.amazonaws.com/avatar/avatar_default_2.png'
+		}
 	}
 
 	public routeToV3(): void {
@@ -102,7 +153,9 @@ export class UrtProductNavigator {
 			http.changeBaseUrl('http://api-auth.homol.logcomex.io/api')
 		}
 
-		http.request('GET', '/customer?userEmail=eduardo.felipe%40logcomex.com')
+		const email = localStorage.getItem('email')
+
+		http.request('GET', `/customer?userEmail=${email}`)
 			.then((response: any) => {
 				this.company.value = {
 					...this.company.value,
@@ -181,5 +234,26 @@ export class UrtProductNavigator {
 		}
 
 		window.location = targetURL as any
+	}
+
+	private loadUserCustomElements(): void {
+		const session = JSON.parse(localStorage.getItem('session') || '{}') as Record<string, any>
+		const customer = session?.customer as Record<string, any>
+
+		if (customer?.customization) {
+			const c: { [key: string]: any } = customer.customization
+
+			if (c.customLogo)
+				this.navigatorElements.value.logo = c.customLogo
+
+			if (c.customHexColor) {
+				this.navigatorElements.value.bgColor = c.customHexColor
+				const color = MakeColorHex(c.customHexColor)
+
+				if (!color.isLight) {
+					this.navigatorElements.value.useLightFont = true
+				}
+			}
+		}
 	}
 }

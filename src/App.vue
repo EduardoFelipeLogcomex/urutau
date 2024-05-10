@@ -13,7 +13,6 @@ Environment.setEnvironment(Environment.Production)
 
 <style scoped>
 .playground {
-  width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;

@@ -1,0 +1,135 @@
+.urt__guardian {
+	display: flex;
+	justify-content: center;
+	align-self: center;
+	padding: 8px;
+	background-color: #F5F6FC;
+	border-radius: 8px;
+	cursor: pointer;
+
+	img {
+		align-self: center;
+	}
+
+	&__loading {
+		width: 40px;
+		height: 40px;
+		border-radius: 8px;
+		background: linear-gradient(-45deg, #eee 40%, #fafafa 50%, #eee 60%);
+		background-size: 300%;
+		background-position-x: 100%;
+		animation: shimmer 1s infinite linear;
+	}
+
+	&__menu {
+		display: flex;
+		flex-direction: column;
+		background-color: #FFF;
+		box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.10);
+		border-radius: 8px;
+		padding: 16px 0;
+		z-index: 25;
+
+		&__top {
+			display: flex;
+			flex-direction: column;
+			padding: 0 16px;
+			border-bottom: 1px solid #E0E1EB;
+
+			&__title {
+				display: flex;
+
+				span {
+					font-family: Poppins, 'sans-serif';
+					font-size: 10px;
+					letter-spacing: 2px;
+					text-transform: uppercase;
+					color: #5F616A;
+				}
+
+				&--icon {
+					font-size: 16px;
+					color: #8E44ED;
+					margin-left: 8px;
+
+					.urt__tooltip__text {
+						border: 1px solid red !important;
+					}
+				}
+			}
+		}
+
+		&__profile {
+			display: flex;
+			margin-top: 10px;
+			margin-bottom: 17px;
+
+			img {
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+			}
+
+			&__info {
+				display: flex;
+				flex-direction: column;
+				margin-left: 8px;
+
+				&__name {
+					font-family: Poppins, 'sans-serif';
+					font-size: 14px;
+					font-weight: 500;
+					color: #34353F;
+				}
+
+				&__email {
+					font-family: Poppins, 'sans-serif';
+					font-size: 12px;
+					color: #5F616A;
+				}
+			}
+		}
+
+		&__options {
+			display: flex;
+			flex-direction: column;
+			padding: 15px 16px 0 16px;
+
+			&__item {
+				display: flex;
+				text-decoration: none;
+				margin-bottom: 8px;
+
+				i {
+					color: #8E44ED;
+					font-size: 16px;
+					align-self: center;
+				}
+
+				img {
+					width: 16px;
+					height: 16px;
+					align-self: center;
+				}
+
+				span {
+					align-self: center;
+					font-family: Poppins, 'sans-serif';
+					font-size: 14px;
+					color: #34353F;
+					margin-left: 8px;
+				}
+			}
+		}
+	}
+}
+
+.urt__guardian__menu__guardianTooltip :deep(.urt__menu) {
+	max-width: 230px;
+}
+
+@keyframes shimmer {
+	to {
+		background-position-x: 0%
+	}
+}

@@ -1,6 +1,4 @@
 <template>
-<!--  <div v-if="self.isOpen.value" class="urt__menu__overlay" @click="self.closeMenu()" />-->
-
   <div
 		v-if="self.isOpen.value"
 		:id="key"
@@ -31,5 +29,5 @@ onUnmounted(() => {
 </script>
 
 <style lang="sass" scoped>
-@import "urt-menu"
+@import "./urt-menu.scss"
 </style>

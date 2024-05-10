@@ -2,7 +2,7 @@
 	display: flex;
 	justify-content: space-between;
 	border-bottom: 1px solid #E0E1EB;
-	padding: 11.5px 96px 11.5px 24px ;
+	padding: 11.5px 96px 11.5px 24px;
 
 	&__sec {
 		display: flex;
@@ -44,6 +44,10 @@
 				font-weight: 700;
 				color: #34353F;
 				user-select: none;
+
+				&--light {
+					color: #FFF;
+				}
 			}
 
 			&__company {
@@ -52,6 +56,10 @@
 				font-weight: 400;
 				color: #34353F;
 				user-select: none;
+
+				&--light {
+					color: #FFF;
+				}
 			}
 		}
 	}

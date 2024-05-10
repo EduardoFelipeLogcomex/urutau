@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { Worker } from '../../../modules/Worker'
+import {MakeHighResolution, Worker} from '../../../modules/Worker'
 import { Events } from '../../../modules/Events'
 import { Vector } from '../../../modules/Vector'
 
@@ -83,7 +83,7 @@ export class UrtMenu {
 	}
 
 	private appendTargetPosition(): void {
-		Worker.Make((worker: any) => {
+		Worker.MakeHighResolution((worker: any) => {
 			const htmlElement = document.getElementById(this.target)
 			const menuElement = document.getElementById(this.componentID)
 
@@ -101,6 +101,10 @@ export class UrtMenu {
 				this.position.y = menuRect.top
 				this.position.w = menuRect.right
 				this.position.h = menuRect.bottom
+
+				if (this.position.h < 0) {
+					this.closeMenu()
+				}
 			}
 		})
 	}
@@ -126,6 +130,7 @@ export class UrtMenu {
 		if (!this.openMenuListenerEvtIsOn) {
 			setTimeout(() => {
 				document.addEventListener('click', this.listenerPointsEvt)
+				document.addEventListener('scroll', this.listenerScrollEvt)
 			}, 100)
 
 			this.openMenuListenerEvtIsOn = true
@@ -134,6 +139,10 @@ export class UrtMenu {
 
 	private listenerPointsEvt = (evt: MouseEvent) => {
 		this.checkPoint(evt, this.position)
+	}
+
+	private listenerScrollEvt = () => {
+		this.appendTargetPosition()
 	}
 
 	private checkPoint(evt: MouseEvent, menuPos: Vector.Vec4): void {
@@ -152,6 +161,7 @@ export class UrtMenu {
 	public closeMenu(): void {
 		this.isOpen.value = false
 		document.removeEventListener('click', this.listenerPointsEvt)
+		document.removeEventListener('scroll', this.listenerScrollEvt)
 		this.openMenuListenerEvtIsOn = false
 	}
 }

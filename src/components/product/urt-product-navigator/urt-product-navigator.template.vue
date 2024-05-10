@@ -1,8 +1,8 @@
 <template>
-  <div class="urt__nav">
+  <div class="urt__nav" :style="{ backgroundColor: self.navigatorElements.value.bgColor }">
     <div class="urt__nav__sec">
       <img
-				src="../../../assets/img/logcomex-logo-full.png"
+				:src="self.navigatorElements.value.logo"
 				alt="logcomex company logo"
 				class="urt__nav__logo"
 				@click="self.redirectWithEnvironment('https://plataforma{ENV}.logcomex.io')"
@@ -12,21 +12,33 @@
     </div>
 
     <div class="urt__nav__sec">
+			<urt-guardian-menu />
+
       <div class="urt__nav__divider" />
 
       <div id="navMenu" class="urt__nav__profile" @click="self.openMenu()">
         <img
-					src="https://logcomex-majestic.s3.sa-east-1.amazonaws.com/avatar/avatar_default_2.png"
+					:src="self.userAvatar.value"
 					alt="user profile image"
 					class="urt__nav__profile__img"
 				/>
 
         <div class="urt__nav__profile__desc">
-          <span class="urt__nav__profile__desc__name">
+          <span
+						class="urt__nav__profile__desc__name"
+						:class="{
+							'urt__nav__profile__desc__name--light': self.navigatorElements.value.useLightFont
+						}"
+					>
             {{ self.userName.value }}
           </span>
 
-          <span class="urt__nav__profile__desc__company">
+          <span
+						class="urt__nav__profile__desc__company"
+						:class="{
+							'urt__nav__profile__desc__company--light': self.navigatorElements.value.useLightFont,
+						}"
+					>
             {{ self.userCompany.value }}
           </span>
         </div>
@@ -59,7 +71,7 @@
 						</div>
 					</div>
 
-					<div class="navMenu__item" @click="self.openCompanyModal()">
+					<div v-if="self.permissions.value.changeCompany" class="navMenu__item" @click="self.openCompanyModal()">
 						<div class="navMenu__item__sec">
 							<i class="material-symbols-outlined">apartment</i>
 							<span>Alterar empresa</span>
@@ -74,6 +86,7 @@
 					</a>
 
 					<div
+						v-if="self.permissions.value.consumptionReport"
 						class="navMenu__item"
 						@click="self.routeToV3()"
 					>
@@ -134,13 +147,14 @@
 </template>
 
 <script lang="ts" setup>
+import { onMounted } from 'vue'
 import UrtMenu from '../../pure/urt-menu/urt-menu.template.vue'
 import UrtModal from '../../pure/urt-modal/urt-modal.template.vue'
 import UrtButton from '../../pure/urt-button/urt-button.template.vue'
 import { UrtProductNavigator } from './urt-product-navigator.ts'
 import UrtAutocompleteSelectOutlined from '../../pure/forms/urt-autocomplete-select-outlined/urt-autocomplete-select-outlined.template.vue'
 import { MakeXMLHttpRequestAdapter } from '../../../modules/Http/xml-http-request.adapter.ts'
-import {onMounted} from "vue";
+import UrtGuardianMenu from '../urt-guardian-menu/urt-guardian-menu.template.vue'
 
 const self = new UrtProductNavigator(MakeXMLHttpRequestAdapter)
 
