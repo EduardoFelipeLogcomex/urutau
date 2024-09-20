@@ -1,6 +1,10 @@
 <template>
   <div class="playground">
-    <urt-product-navigator api-v3-infra-key="" />
+    <urt-product-navigator api-v3-infra-key="">
+			<template v-slot:end_append>
+				<span>here</span>
+			</template>
+		</urt-product-navigator>
   </div>
 </template>
 
