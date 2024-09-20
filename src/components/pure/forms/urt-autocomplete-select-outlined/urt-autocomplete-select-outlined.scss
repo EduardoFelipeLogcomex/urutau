@@ -26,6 +26,11 @@
 			--tw-ring-color: none;
 			--tw-ring-shadow: none;
 		}
+
+		&::placeholder {
+			font-size: 14px;
+			color: #34353F;
+		}
 	}
 
 	&:focus-within {
