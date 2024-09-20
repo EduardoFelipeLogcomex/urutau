@@ -12,6 +12,7 @@
     </div>
 
     <div class="urt__nav__sec">
+			<slot name="end_append" />
 			<urt-guardian-menu />
 
       <div class="urt__nav__divider" />
